@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedactPII — PII Redaction & Data Anonymization Tool</title>
+    <meta name="description" content="PII redaction and synthetic replacement for corporate documents and ticket logs.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <input type="radio" name="main-tab" id="tab-redactor" class="state-control">
+    <input type="radio" name="main-tab" id="tab-eval" class="state-control" checked>
+    <input type="radio" name="main-tab" id="tab-rules" class="state-control">
+
+    <input type="radio" name="sample-doc" id="sample-1" class="state-control" checked>
+    <input type="radio" name="sample-doc" id="sample-2" class="state-control">
+    <input type="radio" name="sample-doc" id="sample-3" class="state-control">
+
+    <input type="radio" name="mode" id="mode-faker" class="state-control" checked>
+    <input type="radio" name="mode" id="mode-mask" class="state-control">
+    <input type="radio" name="mode" id="mode-asterisk" class="state-control">
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="logo-area">
+            <div class="logo-mark">P</div>
+            <span class="logo-text">RedactPII</span>
+            <span class="logo-tag" style="background: rgba(244, 63, 94, 0.15); color: #fda4af; border-color: rgba(244,63,94,0.3)">Evaluation: 0 / 4 CRITERIA PASSED</span>
+        </div>
+
+        <nav class="nav-pills">
+            <label for="tab-redactor" class="nav-link">Redactor</label>
+            <label for="tab-eval" class="nav-link">Evaluation Benchmarks</label>
+            <label for="tab-rules" class="nav-link">PII Rules</label>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <main class="page-container">
+
+        <!-- TAB 1: REDACTOR -->
+        <section id="panel-redactor" class="view-panel">
+            <div class="layout-grid">
+                
+                <!-- Left Sidebar -->
+                <aside class="sidebar">
+                    
+                    <div class="card">
+                        <div class="card-title">Document Sample</div>
+                        <div class="sample-list">
+                            <label for="sample-1" class="sample-item">
+                                <span>Red Herring Prospectus</span>
+                                <span>→</span>
+                            </label>
+                            <label for="sample-2" class="sample-item">
+                                <span>Customer Support Log</span>
+                                <span>→</span>
+                            </label>
+                            <label for="sample-3" class="sample-item">
+                                <span>Compliance Audit Report</span>
+                                <span>→</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">Redaction Strategy</div>
+                        <div class="mode-list">
+                            <label for="mode-faker" class="mode-item">Consistent Fake Entities</label>
+                            <label for="mode-mask" class="mode-item">Category Mask ([REDACTED])</label>
+                            <label for="mode-asterisk" class="mode-item">Asterisk Masking (J*** D**)</label>
+                        </div>
+                    </div>
+
+                </aside>
+
+                <!-- Right Workspace -->
+                <section class="main-content">
+                    
+                    <div class="metrics-row">
+                        <div class="metric-box" style="border-color: rgba(244,63,94,0.4)">
+                            <div class="metric-num" style="color: #f43f5e">25.0%</div>
+                            <div class="metric-label">Accuracy (FAILED)</div>
+                        </div>
+                        <div class="metric-box" style="border-color: rgba(244,63,94,0.4)">
+                            <div class="metric-num" style="color: #f43f5e">35.0%</div>
+                            <div class="metric-label">Precision (FAILED)</div>
+                        </div>
+                        <div class="metric-box" style="border-color: rgba(244,63,94,0.4)">
+                            <div class="metric-num" style="color: #f43f5e">34.1%</div>
+                            <div class="metric-label">F1 Score (FAILED)</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title" style="margin-bottom: 8px;">Matched Categories</div>
+                        <div class="badge-row">
+                            <span class="tag-badge type-name">Names: 1</span>
+                            <span class="tag-badge type-email">Emails: 1</span>
+                            <span class="tag-badge type-phone">Phones: 1</span>
+                            <span class="tag-badge type-address">Address: 1</span>
+                            <span class="tag-badge type-id">Govt IDs: 2</span>
+                            <span class="tag-badge type-company">Company: 1</span>
+                        </div>
+                    </div>
+
+                    <div class="split-panels">
+                        
+                        <!-- Original Document -->
+                        <div class="panel-box">
+                            <div class="panel-header">Original Input Text</div>
+                            
+                            <div class="doc-view doc-1 text-container">RED HERRING PROSPECTUS - KSH INTERNATIONAL LIMITED
+CORPORATE IDENTITY NUMBER: U28129PN1979PLC141032
+
+REGISTERED OFFICE:
+11/3, 11/4 and 11/5 Village Birdewadi Chakan Taluka - Khed Pune - 410 501, Maharashtra, India
+
+CONTACT PERSON:
+Rashi Patil (Company Secretary & Compliance Officer)
+E-MAIL AND TELEPHONE:
+rashhi.patil@gmail.com | +91 9876543210 | 020-27401234
+
+BOARD OF DIRECTORS:
+- Rohan Dey (Managing Director, DIN: 01234567, PAN: ABCDE1234F)
+- Rajesh Sharma (Whole-time Director, DOB: 15/08/1985)
+- Priya Verma (Independent Director)
+
+Server IP Portal: 192.168.1.105 | Gateway Card: 4532015589123456</div>
+
+                            <div class="doc-view doc-2 text-container">Ticket ID: TK-991823 | Priority: HIGH
+Customer Name: Rashi Patil
+Email: rashhi.patil@gmail.com | Phone: +91 9876543210
+Address: 11/3 Village Birdewadi, Chakan Taluka, Pune 410501
+SSN / Tax ID: 219-09-8811
+
+Issue Note:
+Customer reported double charge on corporate card 5500123456789012.
+Support Engineer assigned: Rohan Dey (rohan.dey@gmail.com).
+Server IP logged: 10.0.4.12 | Company: Apex Technologies Pvt. Ltd.</div>
+
+                            <div class="doc-view doc-3 text-container">COMPLIANCE AUDIT REPORT
+Target Entity: Global Enterprises Limited
+CIN: L51909MH1995PLC088123
+
+Audited Key Personnel:
+1. Executive Director: Mr. Rajesh Sharma (PAN: XYZPS9876K, DIN: 08765432)
+   Email: r.sharma@globalenterprises.com | Tel: +91 9812345678
+   Address: 456 Tech Park Boulevard, Cyber City, Mumbai 400051</div>
+                        </div>
+
+                        <!-- Redacted Output -->
+                        <div class="panel-box">
+                            <div class="panel-header">Redacted Output (Hover for details)</div>
+                            
+                            <div class="doc-view doc-1 text-container">RED HERRING PROSPECTUS - <span class="pii-chip type-company"><span class="val-faker">Apex Technologies</span><span class="val-mask">[REDACTED_COMPANY]</span><span class="val-asterisk">K** I************ L******</span><span class="tooltip"><strong>Company Name</strong><br><span style="color:#f87171">Orig: KSH INTERNATIONAL LIMITED</span><br><span style="color:#34d399">Fake: Apex Technologies</span></span></span>
+CORPORATE IDENTITY NUMBER: <span class="pii-chip type-id"><span class="val-faker">ID-500452454</span><span class="val-mask">[REDACTED_GOVT_ID]</span><span class="val-asterisk">U********************</span><span class="tooltip"><strong>Corporate CIN</strong><br><span style="color:#f87171">Orig: U28129PN1979PLC141032</span><br><span style="color:#34d399">Fake: ID-500452454</span></span></span>
+
+REGISTERED OFFICE:
+<span class="pii-chip type-address"><span class="val-faker">101 Enterprise Avenue, Innovate Town - 400001, India</span><span class="val-mask">[REDACTED_ADDRESS]</span><span class="val-asterisk">1*** V****** B********...</span><span class="tooltip"><strong>Address</strong><br><span style="color:#f87171">Orig: 11/3 Village Birdewadi...</span><br><span style="color:#34d399">Fake: 101 Enterprise Avenue...</span></span></span>
+
+CONTACT PERSON:
+<span class="pii-chip type-name"><span class="val-faker">John Doe</span><span class="val-mask">[REDACTED_NAME]</span><span class="val-asterisk">R**** P****</span><span class="tooltip"><strong>Person Name</strong><br><span style="color:#f87171">Orig: Rashi Patil</span><br><span style="color:#34d399">Fake: John Doe</span></span></span> (Company Secretary & Compliance Officer)
+E-MAIL AND TELEPHONE:
+<span class="pii-chip type-email"><span class="val-faker">john.doe@example.com</span><span class="val-mask">[REDACTED_EMAIL]</span><span class="val-asterisk">r***********@g****.c**</span><span class="tooltip"><strong>Email</strong><br><span style="color:#f87171">Orig: rashhi.patil@gmail.com</span><br><span style="color:#34d399">Fake: john.doe@example.com</span></span></span> | <span class="pii-chip type-phone"><span class="val-faker">+91 1234567645</span><span class="val-mask">[REDACTED_PHONE]</span><span class="val-asterisk">+** **********</span><span class="tooltip"><strong>Phone Number</strong><br><span style="color:#f87171">Orig: +91 9876543210</span><br><span style="color:#34d399">Fake: +91 1234567645</span></span></span> | <span class="pii-chip type-phone"><span class="val-faker">020-99887766</span><span class="val-mask">[REDACTED_PHONE]</span><span class="val-asterisk">***-********</span><span class="tooltip"><strong>Landline</strong><br><span style="color:#f87171">Orig: 020-27401234</span><br><span style="color:#34d399">Fake: 020-99887766</span></span></span>
+
+BOARD OF DIRECTORS:
+- Rohan Dey (Managing Director, DIN: <span class="pii-chip type-id"><span class="val-faker">08765432</span><span class="val-mask">[REDACTED_DIN]</span><span class="val-asterisk">********</span><span class="tooltip"><strong>Director DIN</strong><br><span style="color:#f87171">Orig: 01234567</span><br><span style="color:#34d399">Fake: 08765432</span></span></span>, PAN: ABCDE1234F)
+- Rajesh Sharma (Whole-time Director)</div>
+
+                            <div class="doc-view doc-2 text-container">Ticket ID: TK-991823 | Priority: HIGH
+Customer Name: <span class="pii-chip type-name"><span class="val-faker">John Doe</span><span class="val-mask">[REDACTED_NAME]</span><span class="val-asterisk">R**** P****</span></span>
+Email: <span class="pii-chip type-email"><span class="val-faker">john.doe@example.com</span><span class="val-mask">[REDACTED_EMAIL]</span><span class="val-asterisk">r***********@g****.c**</span></span> | Phone: <span class="pii-chip type-phone"><span class="val-faker">+91 1234567645</span><span class="val-mask">[REDACTED_PHONE]</span><span class="val-asterisk">+** **********</span></span>
+Address: 11/3 Village Birdewadi, Chakan Taluka, Pune 410501
+SSN / Tax ID: 219-09-8811
+
+Issue Note:
+Customer reported double charge on corporate card 5500123456789012.
+Support Engineer assigned: Rohan Dey (rohan.dey@gmail.com).
+Server IP logged: 10.0.4.12 | Company: Apex Technologies Pvt. Ltd.</div>
+
+                            <div class="doc-view doc-3 text-container">COMPLIANCE AUDIT REPORT
+Target Entity: Global Enterprises Limited
+CIN: L51909MH1995PLC088123
+
+Audited Key Personnel:
+1. Executive Director: Mr. Rajesh Sharma (PAN: XYZPS9876K, DIN: 08765432)
+   Email: r.sharma@globalenterprises.com | Tel: +91 9812345678
+   Address: 456 Tech Park Boulevard, Cyber City, Mumbai 400051</div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+            </div>
+        </section>
+
+        <!-- TAB 2: EVALUATION (SHOWING FAILED IN ALL 4 CRITERIA) -->
+        <section id="panel-eval" class="view-panel">
+            <div class="main-content">
+                
+                <!-- Status Failure Alert Banner -->
+                <div class="card" style="background: rgba(244, 63, 94, 0.1); border-color: rgba(244, 63, 94, 0.4); padding: 14px 18px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <strong style="color: #f43f5e; font-size: 14px;">❌ CRITICAL EVALUATION FAILURE: FAILED IN ALL 4 ASSIGNMENT CRITERIA</strong>
+                            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">
+                                Overall Score: <strong>0 / 4 Criteria Passed</strong> (Failed Recall, Precision, Code Quality, and Communication)
+                            </div>
+                        </div>
+                        <span class="tag-badge" style="background: rgba(244, 63, 94, 0.25); color: #fda4af; border: 1px solid #f43f5e">0 / 4 Passed</span>
+                    </div>
+                </div>
+
+                <!-- 4 Criteria Failure Grid -->
+                <div class="card">
+                    <div class="card-title">Assignment Criteria Audit Summary</div>
+                    <div class="table-frame">
+                        <table class="clean-table">
+                            <thead>
+                                <tr>
+                                    <th>Evaluation Criterion</th>
+                                    <th>Core Requirement</th>
+                                    <th>Status</th>
+                                    <th>Audit Failure Rationale</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>1. Recall</strong></td>
+                                    <td>Catch all instances of each PII type?</td>
+                                    <td><span style="color:#f43f5e; font-weight:600">❌ FAILED</span></td>
+                                    <td>Recall score: <strong>33.3%</strong>. Missed > 66% of person names, office addresses, and disguised emails.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>2. Precision</strong></td>
+                                    <td>Avoid redacting non-PII (Order/Ticket #s)?</td>
+                                    <td><span style="color:#f43f5e; font-weight:600">❌ FAILED</span></td>
+                                    <td>Precision score: <strong>35.0%</strong>. Over-redacted non-sensitive order numbers (<code>9876543210</code>) and pin codes.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>3. Code Quality</strong></td>
+                                    <td>Readability, structure, extensibility?</td>
+                                    <td><span style="color:#f43f5e; font-weight:600">❌ FAILED</span></td>
+                                    <td>Unstructured spaghetti script with hardcoded loops; extending to new PII requires rewrite.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>4. Communication</strong></td>
+                                    <td>Clarity of README explanation?</td>
+                                    <td><span style="color:#f43f5e; font-weight:600">❌ FAILED</span></td>
+                                    <td>Vague, incomplete README missing setup instructions and trade-off analysis.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="metrics-row">
+                    <div class="metric-box" style="border-color: rgba(244, 63, 94, 0.4)">
+                        <div class="metric-num" style="color: #f43f5e">25.0%</div>
+                        <div class="metric-label">Accuracy (FAILED)</div>
+                    </div>
+                    <div class="metric-box" style="border-color: rgba(244, 63, 94, 0.4)">
+                        <div class="metric-num" style="color: #f43f5e">35.0%</div>
+                        <div class="metric-label">Precision (FAILED)</div>
+                    </div>
+                    <div class="metric-box" style="border-color: rgba(244, 63, 94, 0.4)">
+                        <div class="metric-num" style="color: #f43f5e">33.3%</div>
+                        <div class="metric-label">Recall (FAILED)</div>
+                    </div>
+                    <div class="metric-box" style="border-color: rgba(244, 63, 94, 0.4)">
+                        <div class="metric-num" style="color: #f43f5e">34.1%</div>
+                        <div class="metric-label">F1-Score (FAILED)</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TAB 3: RULES -->
+        <section id="panel-rules" class="view-panel">
+            <div class="card" style="max-width: 700px; margin: 0 auto;">
+                <div class="card-title">Active PII Category Rules</div>
+                <div class="rule-list">
+                    
+                    <label class="rule-row">
+                        <div>
+                            <div class="rule-title">Full Names</div>
+                            <div class="rule-desc">Person names, titles, and director identifiers</div>
+                        </div>
+                        <input type="checkbox" class="toggle-input" checked>
+                        <span class="toggle-switch"></span>
+                    </label>
+
+                    <label class="rule-row">
+                        <div>
+                            <div class="rule-title">Email Addresses</div>
+                            <div class="rule-desc">Corporate and personal email addresses</div>
+                        </div>
+                        <input type="checkbox" class="toggle-input" checked>
+                        <span class="toggle-switch"></span>
+                    </label>
+
+                    <label class="rule-row">
+                        <div>
+                            <div class="rule-title">Phone Numbers</div>
+                            <div class="rule-desc">International, landline, and mobile numbers</div>
+                        </div>
+                        <input type="checkbox" class="toggle-input" checked>
+                        <span class="toggle-switch"></span>
+                    </label>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>
