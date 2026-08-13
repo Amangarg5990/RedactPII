@@ -213,43 +213,8 @@ document.addEventListener("DOMContentLoaded", () => {
             tab.classList.add("active");
             const targetPane = document.getElementById(tab.dataset.tab);
             if (targetPane) targetPane.classList.add("active");
-
-            if (tab.dataset.tab === "evalTab") {
-                runLiveBenchmark();
-            }
         });
     });
-
-    // Run Live Benchmark in Evaluator Tab
-    function runLiveBenchmark() {
-        const results = BenchmarkEvaluator.runEvaluation(detector);
-
-        document.getElementById("evalAccuracy").textContent = results.accuracy.toFixed(1) + "%";
-        document.getElementById("evalPrecision").textContent = results.precision.toFixed(1) + "%";
-        document.getElementById("evalRecall").textContent = results.recall.toFixed(1) + "%";
-        document.getElementById("evalF1").textContent = results.f1Score.toFixed(1) + "%";
-
-        const evalTableBody = document.getElementById("evalTableBody");
-        if (evalTableBody) {
-            evalTableBody.innerHTML = "";
-            Object.entries(results.categoryStats).forEach(([cat, stats]) => {
-                const cPrec = (stats.tp + stats.fp) > 0 ? ((stats.tp / (stats.tp + stats.fp)) * 100).toFixed(1) : "100.0";
-                const cRec = (stats.tp + stats.fn) > 0 ? ((stats.tp / (stats.tp + stats.fn)) * 100).toFixed(1) : "100.0";
-                const cCat = PII_CATEGORIES[cat] || { name: cat, color: "#6366f1" };
-
-                const tr = document.createElement("tr");
-                tr.innerHTML = `
-                    <td><span class="cat-chip" style="background:${cCat.color}20; color:${cCat.color}">${cCat.name}</span></td>
-                    <td>${stats.tp}</td>
-                    <td>${stats.fp}</td>
-                    <td>${stats.fn}</td>
-                    <td><strong>${cPrec}%</strong></td>
-                    <td><strong>${cRec}%</strong></td>
-                `;
-                evalTableBody.appendChild(tr);
-            });
-        }
-    }
 
     // Download Handler
     document.getElementById("btnExportText")?.addEventListener("click", () => {

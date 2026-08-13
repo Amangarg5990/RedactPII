@@ -121,7 +121,6 @@ body {
 }
 
 #tab-redactor:checked ~ .navbar .nav-link[for="tab-redactor"],
-#tab-eval:checked ~ .navbar .nav-link[for="tab-eval"],
 #tab-rules:checked ~ .navbar .nav-link[for="tab-rules"] {
     background: var(--bg-surface);
     color: var(--text-primary);
@@ -142,7 +141,6 @@ body {
 }
 
 #tab-redactor:checked ~ .page-container #panel-redactor,
-#tab-eval:checked ~ .page-container #panel-eval,
 #tab-rules:checked ~ .page-container #panel-rules {
     display: block;
 }
